@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<hr>
+  <img src={{ movie.poster_url }} alt="" style = "height: 450px;">
+<p>
+  <div style="font-weight: bold; margin-left: 2px; font-size: 18px;">
+<p style="font-weight: bold; font-size: 30px;">{{ movie.title }}</p>
+<p>Audience: {{ movie.audience }}</p>
+<p>Release Date: {{ movie.release_date }}</p>
+<p>Genre: {{ movie.genre }}</p>
+<p>Score: {{ movie.score }}</p>
+<p>{{ movie.description }}</p>
+  </div>
+  <hr>
+  <div>
+    <form action= "{% url 'movies:likes' movie.pk %}" method="POST">
+      {% csrf_token %}
+      {% if request.user in movie.like_users.all %}
+        <input type="submit" value="Dislike">
+      {% else %}
+        <input type="submit" value="Like">
+      {% endif %}
+    </form>
+  </div>
+
+  <hr>
+  <button type="button" onclick = "location.href = '{% url 'movies:update' movie.pk %}'" style="color: black; text-decoration-line: none; font-size: 16px; font-weight: bold;">UPDATE</button>
+<form action= "{% url 'movies:delete' movie.pk %}" method="POST">
+  {% csrf_token %}
+  <input style='font-size: 16px; font-weight: bold;' class="mt-1" type='submit' value='DELETE'>
+</form>
+
+<button type="button" onclick = "location.href = '{% url 'movies:index' %}'" style="color: black; text-decoration-line: none; font-size: 16px; font-weight: bold; margin-top: 5px;">BACK</button>
+<hr>
+<h3>Comments</h3>
+{% if comments %}
+  {% comment %} <p>{{ comments|length }}</p> {% endcomment %}
+{% endif %}
+  {% for comment in comments %}
+    <li class="d-flex">
+      {{ comment.user }} : {{ comment.comment }}
+  
+  {% endfor %}
+    </li>
+<div style='font-weight: bold;'>
+{% if request.user.is_authenticated %}
+    <form action="{% url 'movies:comments_create' movie.pk %}" method="POST" >
+      {% csrf_token %}
+      {{ comment_form }}
+      <input type="submit" value='Submit'>
+    </form>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">댓글을 작성하려면 로그인 하세요.</a>
+  {% endif %}
+</div>
+
+{% endblock content %}

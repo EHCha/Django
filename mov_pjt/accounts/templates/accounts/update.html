@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  
+  <form action="{% url 'accounts:update' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" style="color: black; text-decoration-line: none; font-size: 14px; font-weight: bold;">
+  </form>
+  <p>
+  <form action="{% url 'accounts:delete' %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Delete Account" style="color: black; text-decoration-line: none; font-size: 14px; font-weight: bold;">
+  </form>
+
+  <button style="margin-top: 15px;" type="button" onclick = "location.href = '{% url 'movies:index' %}'"><a style="color: black; text-decoration-line: none; font-size: 14px; font-weight: bold;" href = "{% url 'movies:index' %}">BACK</a></button>
+{% endblock content %}

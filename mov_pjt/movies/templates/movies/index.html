@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<button class="mt-2" style="margin-left: 4px; text-decoration-line: none; color: black; font-weight: bold; font-size: 18px;" type="button" onclick = "location.href = '{% url 'movies:create' %}'">CREATE</button>
+<hr>
+<div style = "margin-left: 5px;">
+{% for movie in movies  %}
+<img src={{ movie.poster_url }} alt="" style = "height: 300px;" onclick = "location.href = '{% url 'movies:detail' movie.pk %}'" type="button"><br>
+<button class="mt-2" type="button" onclick = "location.href = '{% url 'movies:detail' movie.pk %}'"><a style="font-weight: bold; font-size: 20px; color: black; text-decoration-line: none;">{{ movie.title }}</a></button>
+<p  class="mt-2" style="font-weight: bold; margin-left: 2px; font-size: 18px;"> IMDB Rating: {{ movie.score }} </p>
+</div>
+<hr>
+{% endfor %}
+{% endblock content %}

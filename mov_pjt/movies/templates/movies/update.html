@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="{% url 'movies:update' movie.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value='Submit' style="color: black; text-decoration-line: none; font-size: 14px; font-weight: bold;">
+    <input type="submit" value='Cancel' style="color: black; text-decoration-line: none; font-size: 14px; font-weight: bold;">
+</form>
+<hr>
+{% endblock content %}
